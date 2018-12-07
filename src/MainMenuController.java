@@ -46,6 +46,7 @@ public class MainMenuController extends AbstractModel implements Initializable, 
     ObservableList<String> searchOptions;
     ObservableList<String> results;
     HashMap<Integer, Integer> resultsMessageNumbers = new HashMap<>();
+    EmailSearcher searcher = null;
     
     @FXML
     private ChoiceBox searchMenu;
@@ -67,7 +68,7 @@ public class MainMenuController extends AbstractModel implements Initializable, 
     @FXML
     private void handleSearch(ActionEvent event) throws Exception {
         String searchString = searchTextField.getText();
-        if(usernamePassword.getKey().equals("") || usernamePassword.getValue().equals("")){
+        if(!isLoggedIn()){
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Search Error");
             alert.setHeaderText(null);
@@ -76,9 +77,8 @@ public class MainMenuController extends AbstractModel implements Initializable, 
             alert.showAndWait();
             return;
         }
-        System.out.println("Searching for: " + searchString + "...");
-        EmailSearcher searcher = new EmailSearcher();
-        Message[] foundMessages = searcher.searchEmail(host, port, usernamePassword.getKey(), usernamePassword.getValue(), searchString, searchMenu.getValue().toString());
+        
+        Message[] foundMessages = searcher.searchEmail(searchString, searchMenu.getValue().toString());
         results.clear();
         resultsMessageNumbers.clear();
         for(int i = 0; i < foundMessages.length; i++){
@@ -123,6 +123,9 @@ public class MainMenuController extends AbstractModel implements Initializable, 
     
     @FXML
     private void handleClose(ActionEvent event) throws Exception {
+        if(searcher != null){
+            searcher.disconnectFromEmailServer();
+        }
         Platform.exit();
     }
     
@@ -132,9 +135,8 @@ public class MainMenuController extends AbstractModel implements Initializable, 
 //        System.out.println("Evt: " + evt);
 //        System.out.println("Value: " + evt.getNewValue());
         switch (evt.getPropertyName()) {
-            case "usernamePassword":
-                usernamePassword = (Pair<String,String>) evt.getNewValue();
-//                System.out.println(usernamePassword);
+            case "EmailSearcher":
+                searcher = (EmailSearcher) evt.getNewValue();
                 break;
                 default:
                     break;
@@ -145,17 +147,12 @@ public class MainMenuController extends AbstractModel implements Initializable, 
     public void viewEmail(int messageNumber) {
         FXMLLoader loader = openNewStage("EmailView.fxml");
         EmailViewController emailController = loader.getController();
-        this.addPropertyChangeListener(emailController);
-        Platform.runLater(() -> {
-            firePropertyChange("usernamePassword", "", usernamePassword);
-        });
-        Platform.runLater(() -> {
+     
         try {
-            emailController.setMessage(messageNumber);
+            emailController.setMessage(searcher, messageNumber);
         } catch (IOException | MessagingException ex) {
             Logger.getLogger(MainMenuController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        });
     }
 
     @Override
@@ -177,6 +174,10 @@ public class MainMenuController extends AbstractModel implements Initializable, 
         return loader;
     }
     
+    boolean isLoggedIn() {
+        return isLoggedIn;
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -193,7 +194,7 @@ public class MainMenuController extends AbstractModel implements Initializable, 
                 if (click.getClickCount() == 2){
 //                    String currentSelectedItem = resultsList.getSelectionModel().getSelectedItem().toString();
                     int selectedItemIndex = resultsList.getSelectionModel().getSelectedIndex();
-                    System.out.println(selectedItemIndex);
+//                    System.out.println(selectedItemIndex);
                     viewEmail(resultsMessageNumbers.get(selectedItemIndex));
                 }
             }

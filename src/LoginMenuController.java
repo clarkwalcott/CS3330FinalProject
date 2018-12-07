@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -24,10 +25,14 @@ import javafx.util.Pair;
  */
 public class LoginMenuController extends AbstractModel implements Initializable {
 
+    EmailSearcher searcher = new EmailSearcher();
+    
     @FXML
     private TextField userField;
     @FXML
     private PasswordField passField;
+    @FXML
+    private Text errorField;
 
     @FXML
     private Button signInButton;
@@ -38,9 +43,19 @@ public class LoginMenuController extends AbstractModel implements Initializable 
     public void signIn(ActionEvent event) throws Exception { //might throw exception
 
         usernamePassword = new Pair<>(userField.getText(), passField.getText());
+        
+        if(searcher.connectToEmailServer(host, port, usernamePassword.getKey(), usernamePassword.getValue()) == null){
+            userField.clear();
+            passField.clear();
+            errorField.setVisible(true);
+            return;
+        }
+        setAbstractModelIsLoggedIn(true);
+        
         Platform.runLater(() -> {
-            firePropertyChange("usernamePassword", "", usernamePassword);
+            firePropertyChange("EmailSearcher", "", searcher);
         });
+        
         Platform.runLater(() -> {
             Stage oldStage = (Stage) signInButton.getScene().getWindow();
             oldStage.close(); 
@@ -57,11 +72,13 @@ public class LoginMenuController extends AbstractModel implements Initializable 
         
         // Enable/Disable login button depending on whether a username was entered.
         signInButton.setDisable(true);
+        errorField.setVisible(false);
+        
 
         userField.textProperty().addListener((observable, oldValue, newValue) -> {
             signInButton.setDisable(newValue.trim().isEmpty());
         });
         
-    }    
+    }
     
 }

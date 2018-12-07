@@ -9,13 +9,18 @@
 
 <AnchorPane id="AnchorPane" prefHeight="350.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cgwy9femailviewer.LoginMenuController">
    <children>
-      <TextField fx:id="userField" layoutX="131.0" layoutY="125.0" />
-      <PasswordField fx:id="passField" layoutX="131.0" layoutY="177.0" />
-      <Label layoutX="45.0" layoutY="130.0" text="Email:" />
-      <Label layoutX="47.0" layoutY="181.0" text="Password:" />
-      <Label alignment="CENTER" layoutX="96.0" layoutY="52.0" text="Please Sign In">
+      <Text fx:id="errorField" fill="#ff0909" layoutX="72.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ERROR: Username or Password is incorrect." wrappingWidth="207.0">
          <font>
-            <Font size="28.0" />
+            <Font name="System Italic" size="11.0" />
+         </font>
+      </Text>
+      <TextField fx:id="userField" layoutX="131.0" layoutY="127.0" />
+      <PasswordField fx:id="passField" layoutX="131.0" layoutY="178.0" />
+      <Label layoutX="45.0" layoutY="130.0" text="Username:" />
+      <Label layoutX="47.0" layoutY="181.0" text="Password:" />
+      <Label alignment="CENTER" layoutX="76.0" layoutY="52.0" text="Please Sign In">
+         <font>
+            <Font name="Calibri" size="36.0" />
          </font>
       </Label>
       <Button fx:id="signInButton" layoutX="200.0" layoutY="227.0" mnemonicParsing="false" onAction="#signIn" prefHeight="34.0" prefWidth="80.0" text="Sign In">

@@ -6,6 +6,7 @@
 package cgwy9femailviewer;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -26,7 +27,8 @@ public class Cgwy9fEmailViewer extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainMenu.fxml"));
+        Parent root = (Parent)loader.load();
         
         Scene scene = new Scene(root);
         
@@ -36,6 +38,14 @@ public class Cgwy9fEmailViewer extends Application {
         
         stage.setScene(scene);
         stage.show();
+        
+        stage.setOnCloseRequest(e -> {
+            MainMenuController menuController = loader.getController();
+            if(menuController.searcher != null){
+                menuController.searcher.disconnectFromEmailServer();
+            }
+            Platform.exit();
+        });
     }
 
     /**

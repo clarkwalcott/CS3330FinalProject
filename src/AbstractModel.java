@@ -18,12 +18,16 @@ import javafx.util.Pair;
 public abstract class AbstractModel {
     protected final String host = "imap.mail.yahoo.com";
     protected final String port = "993";
-    protected Pair<String,String> usernamePassword = new Pair<>("","");
+    protected static boolean isLoggedIn = false;
     protected PropertyChangeSupport propertyChangeSupport;
 
     public AbstractModel(){
         propertyChangeSupport = new PropertyChangeSupport(this);
         System.out.println("AbstractModel Constructed");
+    }
+    
+    protected void setAbstractModelIsLoggedIn(boolean b) {
+        isLoggedIn = b;
     }
     
     // register event listener for property

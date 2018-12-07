@@ -5,17 +5,15 @@
  */
 package cgwy9femailviewer;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
-import javafx.util.Pair;
-import javax.mail.Message;
 import javax.mail.MessagingException;
 
 /**
@@ -23,8 +21,10 @@ import javax.mail.MessagingException;
  *
  * @author Clark
  */
-public class EmailViewController extends AbstractModel implements Initializable, PropertyChangeListener {
+public class EmailViewController extends AbstractModel implements Initializable {
 
+    EmailSearcher searcher = null;
+    
     @FXML
     private MenuItem saveItem;
     @FXML
@@ -42,33 +42,21 @@ public class EmailViewController extends AbstractModel implements Initializable,
         
     }    
 
-    void setMessage(int messageNumber) throws IOException, MessagingException {
+    void setMessage(EmailSearcher searcher, int messageNumber) throws IOException, MessagingException {
         Integer messageNumberInteger = messageNumber;
         System.out.println(messageNumberInteger.toString());
         System.out.println("Loading message...");
-        EmailSearcher searcher = new EmailSearcher();
-        Message[] foundMessages = searcher.searchEmail(host, port, usernamePassword.getKey(), usernamePassword.getValue(), messageNumberInteger.toString(), "messageNumber");
-//        for(Message message : foundMessages){
-//            System.out.println(message.getSubject());
-//        };
-        Message foundMessage = foundMessages[0];
-        emailTextArea.clear();
-        emailTextArea.setText(foundMessage.getContent().toString());
-    }
-    
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
         
-//        System.out.println("Evt: " + evt);
-//        System.out.println("Value: " + evt.getNewValue());
-        switch (evt.getPropertyName()) {
-            case "usernamePassword":
-                usernamePassword = (Pair<String,String>) evt.getNewValue();
-                System.out.println("EmailViewController usernamePassword: " + usernamePassword);
-                break;
-                default:
-                    break;
+        String foundMessage = searcher.getMessage(messageNumberInteger);
+        
+        emailTextArea.clear();
+        BufferedReader reader = new BufferedReader(new StringReader(foundMessage));
+        String tempLine = reader.readLine();
+        while(tempLine != null){
+            emailTextArea.appendText(tempLine + "\n");
+            tempLine = reader.readLine();
         }
+        reader.close();    
     }
     
 }
