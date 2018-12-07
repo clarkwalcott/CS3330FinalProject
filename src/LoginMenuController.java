@@ -40,7 +40,7 @@ public class LoginMenuController extends AbstractModel implements Initializable 
     private Pair<String, String> usernamePassword = new Pair<>("", "");
         
     @FXML
-    public void signIn(ActionEvent event) throws Exception { //might throw exception
+    private void signIn(ActionEvent event) throws Exception { //might throw exception
 
         usernamePassword = new Pair<>(userField.getText(), passField.getText());
         

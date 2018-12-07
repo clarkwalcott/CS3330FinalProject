@@ -18,15 +18,14 @@ import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.Store;
-import javax.mail.internet.ContentType;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.search.SearchTerm;
  
 /**
  * This program demonstrates how to search for e-mail messages which satisfy
  * a search criterion.
- * Adapted by Clark Walcott from:
- * @author www.codejava.net
+ * @author Clark Walcott
+ * Adapted from:
  * https://www.codejava.net/java-ee/javamail/using-javamail-for-searching-e-mail-messages
  *
  */

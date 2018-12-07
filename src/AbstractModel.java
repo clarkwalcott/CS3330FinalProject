@@ -7,7 +7,6 @@ package cgwy9femailviewer;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import javafx.util.Pair;
 
 /**
  *
