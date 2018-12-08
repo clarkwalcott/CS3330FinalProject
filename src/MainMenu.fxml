@@ -10,22 +10,34 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="541.0" prefWidth="607.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cgwy9femailviewer.MainMenuController">
+<AnchorPane fx:id="anchorPane" prefHeight="541.0" prefWidth="607.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cgwy9femailviewer.MainMenuController">
    <children>
-      <MenuBar prefHeight="25.0" prefWidth="613.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" onAction="#handleClose" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem fx:id="mainAboutItem" mnemonicParsing="false" onAction="#handleAbout" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
+      <HBox prefHeight="27.0" prefWidth="613.0">
+         <children>
+            <MenuBar prefHeight="25.0" prefWidth="613.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#handleClose" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem fx:id="mainAboutItem" mnemonicParsing="false" onAction="#handleAbout" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <MenuBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="25.0" prefWidth="314.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="Login">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#handleLogin" text="Sign In" />
+                     </items></Menu>
+              </menus>
+            </MenuBar>
+         </children>
+      </HBox>
       <VBox layoutX="107.0" layoutY="85.0" prefHeight="48.0" prefWidth="430.0">
          <children>
             <HBox alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="427.0">
@@ -40,16 +52,10 @@
             </HBox>
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutX="33.0" layoutY="131.0" prefHeight="374.0" prefWidth="540.0">
+      <VBox alignment="CENTER" layoutX="33.0" layoutY="131.0" opacity="0.75" prefHeight="374.0" prefWidth="540.0">
          <children>
-            <ListView fx:id="resultsList" fixedCellSize="40.0" prefHeight="374.0" prefWidth="540.0" />
+            <ListView fx:id="resultsList" blendMode="DIFFERENCE" fixedCellSize="40.0" prefHeight="374.0" prefWidth="540.0" />
          </children>
       </VBox>
-      <Label layoutX="569.0" layoutY="4.0" text="Login" />
-      <Button alignment="CENTER" layoutX="555.0" mnemonicParsing="false" onAction="#handleLogin" opacity="0.0" prefHeight="25.0" prefWidth="58.0" text="Login">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </Button>
    </children>
 </AnchorPane>

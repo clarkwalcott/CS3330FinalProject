@@ -15,9 +15,11 @@ import java.beans.PropertyChangeSupport;
  * abstract means you cannot create an instance of this class
  */
 public abstract class AbstractModel {
+    
     protected final String host = "imap.mail.yahoo.com";
     protected final String port = "993";
     protected static boolean isLoggedIn = false;
+    
     protected PropertyChangeSupport propertyChangeSupport;
 
     public AbstractModel(){

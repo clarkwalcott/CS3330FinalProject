@@ -20,21 +20,29 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javax.mail.MessagingException;
 
 /**
- * FXML Controller class
+ * FXML EmailView Controller class
  *
- * @author Clark
+ * @author Clark Walcott
  */
 public class EmailViewController extends AbstractModel implements Initializable {
 
     EmailSearcher searcher = null;
     
+    @FXML
+    private StackPane emailStackPane;
     @FXML
     private MenuBar myMenuBar;
     @FXML
@@ -45,7 +53,10 @@ public class EmailViewController extends AbstractModel implements Initializable 
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        BackgroundImage myBI= new BackgroundImage(new Image(getClass().getResourceAsStream("background.jpg")),
+        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        //then you set to your node
+        emailStackPane.setBackground(new Background(myBI));
     }    
 
     void setMessage(EmailSearcher searcher, int messageNumber) throws IOException, MessagingException {
@@ -62,7 +73,7 @@ public class EmailViewController extends AbstractModel implements Initializable 
             emailTextArea.appendText(tempLine + "\n");
             tempLine = reader.readLine();
         }
-        reader.close();    
+        reader.close(); 
     }
     
     @FXML

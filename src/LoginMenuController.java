@@ -14,6 +14,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -25,8 +32,11 @@ import javafx.util.Pair;
  */
 public class LoginMenuController extends AbstractModel implements Initializable {
 
-    EmailSearcher searcher = new EmailSearcher();
-    
+    private EmailSearcher searcher = new EmailSearcher();
+    private Pair<String, String> usernamePassword = new Pair<>("", "");
+
+    @FXML
+    private AnchorPane loginAnchorPane;
     @FXML
     private TextField userField;
     @FXML
@@ -36,9 +46,7 @@ public class LoginMenuController extends AbstractModel implements Initializable 
 
     @FXML
     private Button signInButton;
-    
-    private Pair<String, String> usernamePassword = new Pair<>("", "");
-        
+            
     @FXML
     private void signIn(ActionEvent event) throws Exception { //might throw exception
 
@@ -78,6 +86,11 @@ public class LoginMenuController extends AbstractModel implements Initializable 
         userField.textProperty().addListener((observable, oldValue, newValue) -> {
             signInButton.setDisable(newValue.trim().isEmpty());
         });
+        
+        BackgroundImage myBI= new BackgroundImage(new Image(getClass().getResourceAsStream("background.jpg")),
+        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        //then you set to your node
+        loginAnchorPane.setBackground(new Background(myBI));
         
     }
     

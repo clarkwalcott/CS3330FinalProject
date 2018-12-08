@@ -20,6 +20,9 @@ import javafx.stage.Stage;
  * Icon made by Vectors Market from
  * "https://www.flaticon.com/authors/vectors-market"
  * 
+ * Background Created by Freepik
+ * https://www.freepik.com/free-vector/blue-low-poly-background_868023.htm
+ * 
  */
 public class Cgwy9fEmailViewer extends Application {
     

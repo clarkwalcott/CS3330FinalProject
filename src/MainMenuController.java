@@ -17,7 +17,6 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -31,9 +30,14 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.util.Pair;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 
@@ -47,6 +51,9 @@ public class MainMenuController extends AbstractModel implements Initializable, 
     ObservableList<String> results;
     HashMap<Integer, Integer> resultsMessageNumbers = new HashMap<>();
     EmailSearcher searcher = null;
+    
+    @FXML
+    private AnchorPane anchorPane;
     
     @FXML
     private ChoiceBox searchMenu;
@@ -181,24 +188,26 @@ public class MainMenuController extends AbstractModel implements Initializable, 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        searchOptions = FXCollections.observableArrayList("", "From", "Subject");
+        searchOptions = FXCollections.observableArrayList("Subject", "From");
         searchMenu.setItems(searchOptions);
-        searchMenu.setValue("");
+        searchMenu.setValue("Subject");
         
         results = FXCollections.observableArrayList();
         //resultsList.setItems(results);
         
-        resultsList.setOnMouseClicked(new EventHandler<MouseEvent>(){
-            @Override
-            public void handle(MouseEvent click){
-                if (click.getClickCount() == 2){
+        resultsList.setOnMouseClicked((MouseEvent click) -> {
+            if (click.getClickCount() == 2){
 //                    String currentSelectedItem = resultsList.getSelectionModel().getSelectedItem().toString();
-                    int selectedItemIndex = resultsList.getSelectionModel().getSelectedIndex();
+                int selectedItemIndex = resultsList.getSelectionModel().getSelectedIndex();
 //                    System.out.println(selectedItemIndex);
-                    viewEmail(resultsMessageNumbers.get(selectedItemIndex));
-                }
+                viewEmail(resultsMessageNumbers.get(selectedItemIndex));
             }
         });
+        
+        BackgroundImage myBI= new BackgroundImage(new Image(getClass().getResourceAsStream("background.jpg")),
+        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        //then you set to your node
+        anchorPane.setBackground(new Background(myBI));
           
     }    
     

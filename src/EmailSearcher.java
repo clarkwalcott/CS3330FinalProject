@@ -27,6 +27,7 @@ import javax.mail.search.SearchTerm;
  * @author Clark Walcott
  * Adapted from:
  * https://www.codejava.net/java-ee/javamail/using-javamail-for-searching-e-mail-messages
+ * https://stackoverflow.com/questions/11240368/how-to-read-text-inside-body-of-mail-using-javax-mail
  *
  */
 public class EmailSearcher {
@@ -66,7 +67,6 @@ public class EmailSearcher {
             properties.put("mail.imap.ssl.enable", "true"); // required for Gmail
 //            properties.put("mail.imap.auth.mechanisms", "XOAUTH2");
 //        }
-        
         session = Session.getInstance(properties);
  
         try{
@@ -166,10 +166,9 @@ public class EmailSearcher {
     }
     
         /**
-     * Searches for e-mail messages containing the specified keyword in
+     * Grabs the Message with the given messageNumber and returns it's content
      * Subject field.
-     * @param keyword
-     * @param field
+     * @param messageNumber
      * @return 
      */
     public String getMessage(final Integer messageNumber) {
