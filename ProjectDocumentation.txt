@@ -1,0 +1,89 @@
+/* 
+ * Clark Walcott
+ * 
+ * CS3330 Final Project - EmailViewer
+ * The purpose of this program is to allow the retreival and viewing of emails from a user's email address and to
+ * allow for these emails to be saved to a .txt file.
+ *
+ * Currently, this program is only functional for plaintext emails and is configured to work with Yahoo email addresses.
+ * To use this program, you need to ensure that imap protocols are enabled in your email settings and allow access for 
+ *	"apps that use less secure sign in".
+ *	
+ * Screenshots of working project located in projectScreenshots folder in zip file.
+ *
+ * Given the time to further improve this program, I would change the scope to add:
+ *		- OAuth 2.0 authorization to make the app more secure
+ *		- Coverage to other email clients
+ *		- Coverage of other email types
+ * 
+ * References:
+ * https://www.codejava.net/java-ee/javamail/using-javamail-for-searching-e-mail-messages
+ * https://stackoverflow.com/questions/11240368/how-to-read-text-inside-body-of-mail-using-javax-mail
+ * 
+ * Image Credit:
+ * Icon made by Vectors Market from
+ * "https://www.flaticon.com/authors/vectors-market"
+ * 
+ * Background Created by Freepik
+ * https://www.freepik.com/free-vector/blue-low-poly-background_868023.htm
+ * 
+ */
+
+Requirements:
+1. Object oriented elements	that you write the code for:	
+		a. Classes.
+		b. Subclasses.
+		c. At least one abstract class
+		d. At least one Interface	
+2. Code	elements that you utilize:	
+		a. One or more collection classes.	
+		b. Exception Handling.	
+3. 	The application must have a clearly defined model (as in the M in MVC).	
+4. 	The UI must utilize multiple scenes and at least one of the scenes will have the contents 
+	of the scene graph changed based on the application state.	
+5. 	There must be a way to access “About” information that includes information about you and the application.
+6. 	The application must save data and load data. 
+	The target for saving/loading data can be files, a network service, and/or a database.	
+
+-- ------------------------------------------------------------------------------------------------------------------
+
+1. 	a. 	AbstractModel.java, MainMenuController.java, EmailViewController.java, etc.
+	b. 	MainMenuController.java, EmailViewController.java, LoginMenuController.java. All extend AbstractModel.java
+	c. 	AbstractModel.java
+	d. 	EmailViewerInterface.java
+
+2.	a. 	MainMenuController.java uses:
+			ObservableList<String> searchOptions, results on lines 50 and 51, 
+			HashMap<Integer, Integer> resultsMessageNumbers on line 52 (subclass of Map, not Collection);
+	   	LoginMenuController.java uses:
+	   		Pair<String, String> usernamePassword on line 36;
+	b. 	MainMenuController.java:
+			handleSearch method lines 76,
+			handleClose method lines 132,
+			viewEmail method lines 154,
+			openNewStage method lines 166;
+	   	EmailSearcher.java:
+	    	connectToEmailServer method lines 72,
+	    	disconnectFromEmailServer method lines 96,
+	    	searchEmail method lines 112 (more inside as well),
+	    	getMessage method lines 176;
+	    etc.
+
+3.	AbstractModel.java
+
+4.	Scenes: MainMenu.fxml, LoginMenu.fxml, EmailView.fxml
+	MainMenu.fxml changes the listView based on the user's search in handleSearch on line
+	97. EmailView.fxml opens when the user selects and double-clicks on an email in the search 
+	results (in the listView) in MainMenuController in initialize method on line 198.
+
+5.	Accessed through handleAbout function on About MenuItem press from either MainMenu.fxml
+	or EmailViewer.fxml under the Help menu. MainMenuController.java line 104 and
+	EmailViewController.java line 103.
+
+6.	Connects to server in LoginMenuController.java on line 55.
+	Loads data from email server in MainMenuController.java in handleSearch method on line 76 
+	and in EmailViewController.java in setMessage on line 62.
+    Saves email text from the EmailView.fxml textArea to a file selected by the user
+	in handleSave on line 80 in EmailViewController.java.
+
+
